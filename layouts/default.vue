@@ -25,6 +25,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
+      class="align-center"
       :clipped-left="clipped"
       fixed
       app
@@ -42,43 +43,20 @@
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
+      <v-spacer/>
+      <v-autocomplete
+      solo
       >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+
+      </v-autocomplete>
+      <v-spacer />
     </v-app-bar>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
       app
@@ -89,6 +67,9 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
   data () {
     return {
@@ -97,21 +78,33 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-home',
+          title: 'Главная',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-newspaper-variant-outline',
+          title: 'Статьи',
+          to: '/articles'
+        },
+        {
+          icon: 'mdi-image',
+          title: 'Галерея',
+          to: '/gallery'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Потиханов 201-327'
     }
+  },
+  methods: {
+    ...mapActions(['fetchArticles']),
+  },
+  created() {
+    this.fetchArticles();
   }
+
 }
 </script>
