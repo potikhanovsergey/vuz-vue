@@ -21,7 +21,7 @@
             <v-btn
                 color="orange lighten-2"
                 text
-                :to="{name: 'articles-id', params: art}">
+                :to="{name: 'articles-id', params: {id: art.id}}">
                 Открыть статью
             </v-btn>
 

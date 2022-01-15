@@ -1,40 +1,48 @@
 <template>
-    <v-list-item>
-        <v-textarea
-            v-model="message"
-            label="Комментарий"
-            no-resize
-            rows="1"
-        ></v-textarea>
-        <v-spacer/>
-        <v-btn 
-        @click="sendComment">
-        Отправить</v-btn>
-    </v-list-item>
+    <v-list class="commentForm">
+        <v-list-item>
+            <v-text-field v-model="user_name"></v-text-field>
+        </v-list-item>
+        <v-list-item>
+            <v-textarea
+                v-model="comment"
+                label="Комментарий"
+                no-resize
+                rows="1"
+            ></v-textarea>
+            <v-spacer/>
+            <v-btn 
+            @click="sendComment">
+            Отправить</v-btn>
+        </v-list-item>
+    </v-list>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            message: ''
+            comment: '',
+            user_name: ''
         }
     },
     methods: {
-        sendComment() {
-            this.$emit('sendComment', 
-                {
-                    message: this.message, 
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    author: 'Test Author',
-                    id: new Date().toISOString()
-                })
-            this.message = '';
+        async sendComment() {
+            let url = `https://demo-api.vsdev.space/api/articles/${this.$route.params.id}/comments`;
+            let obj = {
+                user_name: this.user_name,
+                comment: this.comment
+            }
+            this.$axios.post(url, obj);
+            this.comment = '';
+            this.$emit('new-comment', {...obj, id: (new Date()).getTime(), article_id: this.$route.params.id})
         }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+    .commentForm {
+        max-width: 720px;
+    }
 </style>

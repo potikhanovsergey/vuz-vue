@@ -17,7 +17,7 @@
 import { mapGetters } from 'vuex'; 
 export default {
     computed: {
-        ...mapGetters({articles: 'getArticles'}),
+        ...mapGetters({articles: 'getArticles', articlesAreLoaded: 'articlesAreLoaded'}),
     },
 }
 </script>
